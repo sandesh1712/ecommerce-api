@@ -1,11 +1,13 @@
 package service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import entity.User;
+import exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 import repository.UserRepository;
 
@@ -24,11 +26,11 @@ public class UserService implements ServiceInterface<User>{
 	@Override
 	public User findById(int id) {
 		// TODO Auto-generated method stub
-		User user = this.findById(id);
-//      //throw exception if user not found		
-//		if(user==null)
-//			throw 
-		return user;
+		Optional<User> user = this.repo.findById(id);
+      //throw exception if user not found		
+		if(user.isEmpty())
+			throw new NotFoundException("User Not Found");
+		return user.get();
 	}
 
 	@Override
