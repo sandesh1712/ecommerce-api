@@ -1,5 +1,8 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,7 +12,7 @@ import jakarta.persistence.Table;
 import types.UserType;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User {
 
 	@Id
@@ -25,6 +28,9 @@ public class User {
 
 	@Column(name = "email")
 	private String email;
+	
+	@Column(name="password")
+	private String password;
 
 	@Column(name = "phone")
 	private String phone;
@@ -51,6 +57,16 @@ public class User {
 		this.birthDate = birthDate;
 		this.gender = gender;
 		this.type = type;
+	}
+	
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+    
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Integer getId() {
