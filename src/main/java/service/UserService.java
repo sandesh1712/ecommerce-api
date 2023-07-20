@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import entity.User;
 import exceptions.NotFoundException;
+import helper.PasswordHelper;
 import jakarta.transaction.Transactional;
 import repository.UserRepository;
 
@@ -25,7 +26,6 @@ public class UserService implements ServiceInterface<User>{
 
 	@Override
 	public User findById(int id) {
-		// TODO Auto-generated method stub
 		Optional<User> user = this.repo.findById(id);
       //throw exception if user not found		
 		if(user.isEmpty())
@@ -40,6 +40,17 @@ public class UserService implements ServiceInterface<User>{
 
 	@Override
 	public User create(User u) {
+		// Encrypt Password
+		if(u.getPassword()=="") {
+		   throw new RuntimeException("passoword shouldn't be empty");	
+		}
+		
+		if(u.getId()!=null) {
+			throw new RuntimeException("Id shouldn't be passed");
+		}
+			
+		String password = PasswordHelper.encryptPassword(u.getPassword());
+		u.setPassword(password);
 		return this.repo.save(u);
 	}
 
