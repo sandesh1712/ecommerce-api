@@ -43,6 +43,9 @@ public class User {
 
 	@Column(name = "type")
 	private UserType type;
+	
+	@Column(name="active")
+	private boolean active;
 
 	public User() {
 	}
@@ -131,5 +134,13 @@ public class User {
 
 	public void setType(UserType type) {
 		this.type = type;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
 	}
 }
