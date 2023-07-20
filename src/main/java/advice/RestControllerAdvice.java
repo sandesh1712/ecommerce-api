@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import error.ErrorResponse;
 import exceptions.NotFoundException;
+import exceptions.UnauthorisedException;
 
 @ControllerAdvice
 public class RestControllerAdvice {
@@ -23,10 +24,13 @@ public class RestControllerAdvice {
 		 errorResponse.setTimeStampString(nowDateTime.format(DateTimeFormatter.ISO_DATE_TIME));
 		 
 		 if(ex.getClass().equals(NotFoundException.class))
-			errorResponse.setStatus(HttpStatus.NOT_FOUND);
+			  errorResponse.setStatus(HttpStatus.NOT_FOUND);
 		  
          if(errorResponse.getStatus()==null)
         	  errorResponse.setStatus(HttpStatus.BAD_REQUEST);
+         
+         if(ex.getClass().equals(UnauthorisedException.class))
+ 			  errorResponse.setStatus(HttpStatus.UNAUTHORIZED);
          
 		 return new ResponseEntity<ErrorResponse>(errorResponse,errorResponse.getStatus());
 	}
