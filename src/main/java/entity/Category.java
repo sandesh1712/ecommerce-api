@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "categories")
-public class Category extends SuperEntity{
+public class Category extends SuperEntity {
 	@Column(name = "name")
 	private String name;
 	
@@ -20,8 +20,8 @@ public class Category extends SuperEntity{
 	@JsonIgnore
 	private List<Product> products; 
 	
-	@Column(name = "desc")
-	private String desc;
+	@Column(name = "description")
+	private String description;
 
 	public String getName() {
 		return name;
@@ -40,11 +40,11 @@ public class Category extends SuperEntity{
 		this.products = products;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

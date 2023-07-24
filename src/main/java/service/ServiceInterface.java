@@ -5,7 +5,7 @@ import java.util.List;
 public interface ServiceInterface<T> {
 	public T findById(int id);
 
-	public List<T> findALL();
+	public List<T> findAll();
 
 	public T create(T t);
 
