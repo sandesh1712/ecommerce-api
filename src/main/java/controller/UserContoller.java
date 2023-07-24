@@ -23,18 +23,16 @@ import service.UserService;
 @RequestMapping("/users")
 public class UserContoller {
 	private UserService userService;
-	private AddressService addressService;
 
 	@Autowired
-	public UserContoller(UserService userService,AddressService addressService) {
+	public UserContoller(UserService userService) {
 		super();
 		this.userService = userService;
-		this.addressService=addressService;
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers(){
-		List<User> userList = this.userService.findALL();
+		List<User> userList = this.userService.findAll();
 		return new ResponseEntity<List<User>>(userList,HttpStatus.OK);
 	}
 	
@@ -66,7 +64,7 @@ public class UserContoller {
 	@GetMapping("/{userId}/addresses")
 	public ResponseEntity<List<Address>> getAllByUserId(@PathVariable int userId){
 		User user = this.userService.findById(userId);
-		List<Address> list = this.addressService.getAllForUser(user.getId());
+		List<Address> list = user.getAddresses();
 		return new ResponseEntity<List<Address>>(list,HttpStatus.OK);
 	}
 }

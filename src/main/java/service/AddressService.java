@@ -35,7 +35,7 @@ public class AddressService implements ServiceInterface<Address> {
 	}
 
 	@Override
-	public List<Address> findALL() {
+	public List<Address> findAll() {
 		return this.repo.findAll();
 	}
 

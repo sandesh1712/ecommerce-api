@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import entity.User;
+import exceptions.NotAllowedException;
 import exceptions.NotFoundException;
 import helper.PasswordHelper;
 import jakarta.transaction.Transactional;
@@ -34,7 +35,7 @@ public class UserService implements ServiceInterface<User>{
 	}
 
 	@Override
-	public List<User> findALL() {
+	public List<User> findAll() {
 		return this.repo.findAll();
 	}
 
@@ -42,11 +43,11 @@ public class UserService implements ServiceInterface<User>{
 	public User create(User u) {
 		// Encrypt Password
 		if(u.getPassword()=="") {
-		   throw new RuntimeException("passoword shouldn't be empty");	
+		   throw new NotAllowedException("passoword shouldn't be empty");	
 		}
 		
 		if(u.getId()!=null) {
-			throw new RuntimeException("Id shouldn't be passed");
+			throw new NotAllowedException("Id shouldn't be passed");
 		}
 			
 		String password = PasswordHelper.encryptPassword(u.getPassword());
