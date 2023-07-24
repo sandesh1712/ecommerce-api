@@ -14,18 +14,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import entity.Address;
 import entity.User;
+import service.AddressService;
 import service.UserService;
 
 @RestController
 @RequestMapping("/users")
 public class UserContoller {
 	private UserService userService;
+	private AddressService addressService;
 
 	@Autowired
-	public UserContoller(UserService userService) {
+	public UserContoller(UserService userService,AddressService addressService) {
 		super();
 		this.userService = userService;
+		this.addressService=addressService;
 	}
 	
 	@GetMapping
@@ -58,4 +62,11 @@ public class UserContoller {
 	   this.userService.delete(id);
 	   return new ResponseEntity<User>(HttpStatus.OK);
 	};
+	
+	@GetMapping("/{userId}/addresses")
+	public ResponseEntity<List<Address>> getAllByUserId(@PathVariable int userId){
+		User user = this.userService.findById(userId);
+		List<Address> list = this.addressService.getAllForUser(user.getId());
+		return new ResponseEntity<List<Address>>(list,HttpStatus.OK);
+	}
 }

@@ -1,25 +1,24 @@
 package entity;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import types.UserType;
 
 @Entity
 @Table(name = "users")
-public class User {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
-	private Integer id;
-
+public class User extends SuperEntity{
 	@Column(name = "first_name")
 	private String firstName;
 
@@ -46,6 +45,10 @@ public class User {
 	
 	@Column(name="active")
 	private boolean active;
+	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Address> addresses;
 
 	public User() {
 	}
@@ -70,14 +73,6 @@ public class User {
 	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
 	}
 
 	public String getFirstName() {
@@ -142,5 +137,13 @@ public class User {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	public List<Address> getAddresses() {
+		return addresses;
+	}
+
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 }
