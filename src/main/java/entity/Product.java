@@ -2,9 +2,12 @@ package entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -19,15 +22,42 @@ public class Product extends SuperEntity {
 	@Column(name = "description")
 	private String description;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER,optional = false)
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
+	
+	@OneToMany(mappedBy = "product",cascade = CascadeType.ALL)
+	@JsonIgnore
+	private List<Review> productReviews;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ProductInventory> productInventories;
 
 	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
 	private List<ProductImages> productImages;
+	
+	@Column(name = "rating")
+	private int rating;
+	
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	@Column(name = "brand")
+	private String brand;
+	
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}
 
 	public String getName() {
 		return name;
@@ -59,6 +89,14 @@ public class Product extends SuperEntity {
 
 	public void setProductImages(List<ProductImages> productImages) {
 		this.productImages = productImages;
+	}
+
+	public List<Review> getProductReviews() {
+		return productReviews;
+	}
+
+	public void setProductReviews(List<Review> productReviews) {
+		this.productReviews = productReviews;
 	}
 
 	public String getDescription() {
