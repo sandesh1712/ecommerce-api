@@ -15,7 +15,7 @@ public class ProductImages extends SuperEntity {
 	private String url;
     
     @ManyToOne
-    @JoinColumn(name="product_id",nullable = false)
+    @JoinColumn(name="product_id")
     @JsonIgnore
     private Product product;
      

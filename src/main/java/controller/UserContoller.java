@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import entity.Address;
+import entity.Review;
 import entity.User;
-import service.AddressService;
 import service.UserService;
 
 @RestController
@@ -62,9 +62,16 @@ public class UserContoller {
 	};
 	
 	@GetMapping("/{userId}/addresses")
-	public ResponseEntity<List<Address>> getAllByUserId(@PathVariable int userId){
+	public ResponseEntity<List<Address>> getAllAddressesByUserId(@PathVariable int userId){
 		User user = this.userService.findById(userId);
 		List<Address> list = user.getAddresses();
 		return new ResponseEntity<List<Address>>(list,HttpStatus.OK);
+	}
+	
+	@GetMapping("/{userId}/reviews")
+	public ResponseEntity<List<Review>> getAllReviewsByUserId(@PathVariable int userId){
+		User user = this.userService.findById(userId);
+		List<Review> list = user.getReviews();
+		return new ResponseEntity<List<Review>>(list,HttpStatus.OK);
 	}
 }

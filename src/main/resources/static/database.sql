@@ -13,3 +13,9 @@ CREATE TABLE products (id int PRIMARY KEY NOT NULL auto_increment, description v
 CREATE TABLE product_inventory (id int PRIMARY KEY NOT NULL auto_increment, quantity int NOT NULL, product_id int not null, FOREIGN KEY (product_id) REFERENCES products(id));
 
 CREATE TABLE product_images (id int PRIMARY KEY NOT NULL auto_increment, url text NOT NULL, product_id int not null, FOREIGN KEY (product_id) REFERENCES products(id));
+
+CREATE TABLE reviews (id int PRIMARY KEY NOT NULL auto_increment, review text NOT NULL, product_id int not null,user_id int NOT NULL,rating int not null, FOREIGN KEY (product_id) REFERENCES products(id), FOREIGN KEY (user_id) REFERENCES  users(id));
+
+ALTER TABLE products ADD rating int;
+
+ALTER TABLE products ADD brand varchar(50) NOT NULL;

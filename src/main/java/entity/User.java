@@ -49,6 +49,10 @@ public class User extends SuperEntity{
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Address> addresses;
+	
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Review> reviews;
 
 	public User() {
 	}
@@ -63,8 +67,16 @@ public class User extends SuperEntity{
 		this.birthDate = birthDate;
 		this.gender = gender;
 		this.type = type;
-	}
+	}	
 	
+	public List<Review> getReviews() {
+		return reviews;
+	}
+
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+
 	@JsonIgnore
 	public String getPassword() {
 		return password;
