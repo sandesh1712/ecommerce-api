@@ -41,7 +41,6 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		
 		<!-- Guava Hashing library -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -49,6 +48,12 @@
 			<version>31.0.1-jre</version>
 		</dependency>
 		
+		<!-- Added support of DTOs-->
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.1.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
