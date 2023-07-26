@@ -3,6 +3,7 @@ package controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,13 +21,11 @@ import service.UserService;
 @RequestMapping("/addresses")
 public class AddressController {
 	private AddressService addressService;
-	private UserService userService;
 
 	@Autowired
-	public AddressController(AddressService addressService,UserService userService) {
+	public AddressController(AddressService addressService){
 		super();
 		this.addressService = addressService;
-		this.userService = userService;
 	}
 	
 	
@@ -38,12 +37,9 @@ public class AddressController {
 	
 	@PostMapping
     public ResponseEntity<Address> createAddress(@RequestBody Address address){	
-		User user = this.userService.findById(address.getUser().getId());
-		address.setUser(user);
 		Address newAddress = this.addressService.create(address);
 		return new ResponseEntity<Address>(newAddress,HttpStatus.OK);
-	}
-	
+	}	
 	
 	@PutMapping("/{id}")
     public ResponseEntity<Address> updateAddress(@PathVariable int id,@RequestBody Address address){	
@@ -52,6 +48,9 @@ public class AddressController {
 		return new ResponseEntity<Address>(newAddress,HttpStatus.OK);
 	}
 	
-	
-
+	@DeleteMapping("/{id}")
+	public ResponseEntity deleteAddress(@PathVariable int id){
+	   this.addressService.delete(id);
+	   return new ResponseEntity(HttpStatus.OK);
+	};
 }

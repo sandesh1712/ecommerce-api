@@ -19,7 +19,7 @@ import types.UserType;
 @Entity
 @Table(name = "users")
 public class User extends SuperEntity{
-	@Column(name = "first_name")
+	@Column(name = "first_name")	
 	private String firstName;
 
 	@Column(name = "last_name")
