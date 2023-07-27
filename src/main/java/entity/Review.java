@@ -1,8 +1,5 @@
 package entity;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
-import helper.View;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;

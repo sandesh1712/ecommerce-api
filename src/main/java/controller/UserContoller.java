@@ -42,12 +42,6 @@ public class UserContoller {
 	   return new ResponseEntity<User>(user,HttpStatus.OK);
 	};
 	
-	@PostMapping
-	public ResponseEntity<User> createUser(@RequestBody User userBody){
-	   User user = this.userService.create(userBody);
-	   return new ResponseEntity<User>(user,HttpStatus.CREATED);
-	};
-	
 	@PutMapping("/{id}")
 	public ResponseEntity<User> updateUser(@PathVariable int id,@RequestBody User userBody){
 		userBody.setId(id);

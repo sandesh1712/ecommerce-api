@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import error.ErrorResponse;
 import exceptions.NotAllowedException;
 import exceptions.NotFoundException;
-import exceptions.UnauthorisedException;
+import exceptions.UnauthorizedException;
 
 @ControllerAdvice
 public class RestControllerAdvice {
@@ -27,7 +27,7 @@ public class RestControllerAdvice {
 		 if(ex.getClass().equals(NotFoundException.class))
 			  errorResponse.setStatus(HttpStatus.NOT_FOUND);
          
-         if(ex.getClass().equals(UnauthorisedException.class))
+         if(ex.getClass().equals(UnauthorizedException.class))
  			  errorResponse.setStatus(HttpStatus.UNAUTHORIZED);
          
          if(ex.getClass().equals(NotAllowedException.class))

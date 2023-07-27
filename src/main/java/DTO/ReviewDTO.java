@@ -12,22 +12,6 @@ public class ReviewDTO extends DTO{
     
     private OnlyIdObject product;
 
-	public String getReview() {
-		return review;
-	}
-
-	public void setReview(String review) {
-		this.review = review;
-	}
-
-	public int getRating() {
-		return rating;
-	}
-
-	public void setRating(int rating) {
-		this.rating = rating;
-	}
-
 	public OnlyIdObject getUser() {
 		return user;
 	}
@@ -42,5 +26,21 @@ public class ReviewDTO extends DTO{
 
 	public void setProduct(OnlyIdObject product) {
 		this.product = product;
-	}  	
+	}
+
+	public String getReview() {
+		return review;
+	}
+
+	public void setReview(String review) {
+		this.review = review;
+	}
+
+	public int getRating() {
+		return rating;
+	}
+
+	public void setRating(int rating) {
+		this.rating = rating;
+	}  
 }

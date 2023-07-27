@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import entity.User;
 import exceptions.NotAllowedException;
 import exceptions.NotFoundException;
-import helper.PasswordHelper;
 import jakarta.transaction.Transactional;
 import repository.UserRepository;
 
@@ -20,7 +20,7 @@ public class UserService implements ServiceInterface<User>{
 	private UserRepository repo;
     
 	@Autowired
-	public UserService(UserRepository repo) {
+	public UserService(UserRepository repo){
 		super();
 		this.repo = repo;
 	}
@@ -41,17 +41,9 @@ public class UserService implements ServiceInterface<User>{
 
 	@Override
 	public User create(User u) {
-		// Encrypt Password
-		if(u.getPassword()=="") {
-		   throw new NotAllowedException("passoword shouldn't be empty");	
-		}
-		
 		if(u.getId()!=null) {
 			throw new NotAllowedException("Id shouldn't be passed");
 		}
-			
-		String password = PasswordHelper.encryptPassword(u.getPassword());
-		u.setPassword(password);
 		return this.repo.save(u);
 	}
 
@@ -65,5 +57,12 @@ public class UserService implements ServiceInterface<User>{
 	public void delete(int id) {
 		User user = this.findById(id);
 		this.repo.delete(user);
+	}
+	
+	public User findByEmail(String email) {
+		Optional<User> user = this.repo.findByEmail(email);
+		if(user.isEmpty())
+			throw new NotFoundException("User Not Found");
+		return user.get();
 	}
 }

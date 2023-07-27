@@ -1,6 +1,11 @@
 package entity;
 
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -8,17 +13,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import types.UserType;
+import types.Role;
 
 @Entity
 @Table(name = "users")
-public class User extends SuperEntity{
+public class User extends SuperEntity implements UserDetails {
 	@Column(name = "first_name")	
 	private String firstName;
 
@@ -40,8 +44,9 @@ public class User extends SuperEntity{
 	@Column(name = "gender")
 	private String gender;
 
-	@Column(name = "type")
-	private UserType type;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "role")
+	private Role role;
 	
 	@Column(name="active")
 	private boolean active;
@@ -58,7 +63,7 @@ public class User extends SuperEntity{
 	}
 
 	public User(String firstName, String lastName, String email, String phone, String birthDate, String gender,
-			UserType type) {
+			Role role) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -66,7 +71,7 @@ public class User extends SuperEntity{
 		this.phone = phone;
 		this.birthDate = birthDate;
 		this.gender = gender;
-		this.type = type;
+		this.role = role;
 	}	
 	
 	public List<Review> getReviews() {
@@ -135,12 +140,12 @@ public class User extends SuperEntity{
 		this.gender = gender;
 	}
 
-	public UserType getType() {
-		return type;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setType(UserType type) {
-		this.type = type;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	public boolean isActive() {
@@ -157,5 +162,35 @@ public class User extends SuperEntity{
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
+
+	@Override
+	public String getUsername() {
+		return this.email;
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
 	}
 }

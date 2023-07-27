@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import entity.Address;
 import exceptions.NotFoundException;
-import exceptions.UnauthorisedException;
+import exceptions.UnauthorizedException;
 import jakarta.transaction.Transactional;
 import repository.AddressRepository;
 
@@ -51,7 +51,7 @@ public class AddressService implements ServiceInterface<Address> {
 	public Address update(Address address) {
 		Address address2 = this.findById(address.getId());
 		if(address.getUser().getId()!=address2.getUser().getId())
-			throw new UnauthorisedException("Unauthorised: Modifying user id not allowed!!");
+			throw new UnauthorizedException("Unauthorised: Modifying user id not allowed!!");
 		return this.repo.save(address);
 	}
 
