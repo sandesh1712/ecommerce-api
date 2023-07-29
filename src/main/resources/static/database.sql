@@ -19,3 +19,9 @@ CREATE TABLE reviews (id int PRIMARY KEY NOT NULL auto_increment, review text NO
 ALTER TABLE products ADD rating int;
 
 ALTER TABLE products ADD brand varchar(50) NOT NULL;
+
+ALTER TABLE products ADD unit_price int NOT NULL;
+
+CREATE TABLE carts (id int PRIMARY KEY NOT NULL auto_increment , user_id int not null, cart_total int default 0,status varchar(10), FOREIGN KEY (user_id) REFERENCES  users(id));
+
+CREATE TABLE cart_items (id int PRIMARY KEY NOT NULL auto_increment, total float not null,product_id int not null,quantity int not null,cart_id int not null, FOREIGN KEY (product_id) REFERENCES products(id) , FOREIGN KEY (cart_id) REFERENCES carts(id)); 

@@ -9,8 +9,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,6 +41,24 @@ public class Product extends SuperEntity {
 	@Column(name = "rating")
 	private int rating;
 	
+	@Column (name = "unit_price")
+	private float unitPrice;
+	
+	@Column(name = "brand")
+	private String brand;
+	
+	@JsonIgnore
+    @OneToMany(mappedBy = "product")
+	private List<CartItem> cartsItems;
+	
+	public float getUnitPrice() {
+		return unitPrice;
+	}
+
+	public void setUnitPrice(float unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+	
 	public String getBrand() {
 		return brand;
 	}
@@ -46,11 +66,7 @@ public class Product extends SuperEntity {
 	public void setBrand(String brand) {
 		this.brand = brand;
 	}
-
-	@Column(name = "brand")
-	private String brand;
 	
-
 	public int getRating() {
 		return rating;
 	}
