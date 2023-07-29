@@ -2,14 +2,11 @@ package helper;
 
 import java.security.Key;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 
 import entity.User;
 import io.jsonwebtoken.Claims;
@@ -54,7 +51,7 @@ public class JwtHelper {
 
 	public boolean isValidToken(String token, UserDetails user) {
 		String username = this.extractUserName(token); // extract username
-		return username.equals(user.getUsername()) && isTokenExpired(token);
+		return username.equals(user.getUsername()) && !isTokenExpired(token);
 	}
 
 	private boolean isTokenExpired(String token) {

@@ -71,9 +71,10 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-security</artifactId>
 	</dependency>
-      
 	</dependencies>
 	<build>
+		<!-- jar name -->
+		<finalName>ecommerce-api</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

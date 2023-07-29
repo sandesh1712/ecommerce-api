@@ -1,6 +1,7 @@
 package entity;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -18,12 +19,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import types.CartStatus;
 import types.Role;
 
 @Entity
 @Table(name = "users")
 public class User extends SuperEntity implements UserDetails {
-	@Column(name = "first_name")	
+	@Column(name = "first_name")
 	private String firstName;
 
 	@Column(name = "last_name")
@@ -31,8 +33,8 @@ public class User extends SuperEntity implements UserDetails {
 
 	@Column(name = "email")
 	private String email;
-	
-	@Column(name="password")
+
+	@Column(name = "password")
 	private String password;
 
 	@Column(name = "phone")
@@ -47,15 +49,20 @@ public class User extends SuperEntity implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
 	private Role role;
-	
-	@Column(name="active")
+
+	@Column(name = "active")
 	private boolean active;
+
 	
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL ,fetch = FetchType.LAZY)
+	@JsonIgnore
+	private List<Cart> carts;
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Address> addresses;
-	
-	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private List<Review> reviews;
 
@@ -72,8 +79,8 @@ public class User extends SuperEntity implements UserDetails {
 		this.birthDate = birthDate;
 		this.gender = gender;
 		this.role = role;
-	}	
-	
+	}
+
 	public List<Review> getReviews() {
 		return reviews;
 	}
@@ -86,7 +93,7 @@ public class User extends SuperEntity implements UserDetails {
 	public String getPassword() {
 		return password;
 	}
-    
+
 	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
@@ -147,7 +154,7 @@ public class User extends SuperEntity implements UserDetails {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-	
+
 	public boolean isActive() {
 		return active;
 	}
@@ -155,13 +162,21 @@ public class User extends SuperEntity implements UserDetails {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-	
+
 	public List<Address> getAddresses() {
 		return addresses;
 	}
 
 	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
+	}
+	
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
 	}
 
 	@Override
@@ -192,5 +207,19 @@ public class User extends SuperEntity implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@JsonIgnore
+	public Cart getActiveCart() {
+		if (this.carts.size() == 0)
+			return null;
+		Iterator<Cart> iterator = carts.iterator();
+		Cart cart = null;
+		while (iterator.hasNext()) {
+			cart = iterator.next();
+			if (cart.getStatus() == CartStatus.ACTIVE)
+				break;
+		}
+		return cart;
 	}
 }

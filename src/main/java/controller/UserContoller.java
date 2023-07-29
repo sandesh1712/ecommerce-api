@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import DTO.CartDTO;
 import entity.Address;
+import entity.Cart;
 import entity.Review;
 import entity.User;
 import service.UserService;
@@ -67,5 +69,11 @@ public class UserContoller {
 		User user = this.userService.findById(userId);
 		List<Review> list = user.getReviews();
 		return new ResponseEntity<List<Review>>(list,HttpStatus.OK);
+	}
+	
+	@GetMapping("/{userId}/activecart")
+	public ResponseEntity<CartDTO> getActiveCart(@PathVariable int userId){
+		User user = this.userService.findById(userId);
+		return new ResponseEntity<>(user.getActiveCart().convertToDto(),HttpStatus.OK);
 	}
 }

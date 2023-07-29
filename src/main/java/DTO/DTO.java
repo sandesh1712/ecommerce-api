@@ -1,6 +1,6 @@
 package DTO;
 
-public abstract class DTO {
+public class DTO {
 	private int id;
 
 	public int getId() {

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import entity.User;
@@ -18,11 +17,14 @@ import repository.UserRepository;
 @Transactional
 public class UserService implements ServiceInterface<User>{
 	private UserRepository repo;
+	CartService cartService;
+	
     
 	@Autowired
 	public UserService(UserRepository repo){
 		super();
 		this.repo = repo;
+		this.cartService = cartService;
 	}
 
 	@Override
@@ -44,7 +46,9 @@ public class UserService implements ServiceInterface<User>{
 		if(u.getId()!=null) {
 			throw new NotAllowedException("Id shouldn't be passed");
 		}
-		return this.repo.save(u);
+		User newUser = this.repo.save(u);
+	//	cartService.createCartForUser(newUser);
+		return newUser;	
 	}
 
 	@Override
