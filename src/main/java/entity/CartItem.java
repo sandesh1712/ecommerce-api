@@ -1,5 +1,8 @@
 package entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -14,7 +17,7 @@ import jakarta.persistence.Table;
 public class CartItem extends SuperEntity{
     
 	@ManyToOne
-	@JoinColumn(name = "cart_id")
+	@JoinColumn(name = "cart_id")	
 	private Cart cart;
 	
 	@ManyToOne
@@ -27,10 +30,12 @@ public class CartItem extends SuperEntity{
 	@Column(name="total")
 	private float total;
 
+	@JsonIgnore
 	public Cart getCart() {
 		return cart;
 	}
 
+	@JsonProperty
 	public void setCart(Cart cart) {
 		this.cart = cart;
 	}
@@ -58,4 +63,10 @@ public class CartItem extends SuperEntity{
 	public void setTotal(float total) {
 		this.total = total;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		CartItem item = (CartItem)obj;
+		return this.getId()== item.getId();
+	}	
 }

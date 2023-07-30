@@ -1,5 +1,6 @@
 package service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,5 +61,30 @@ public class CartService implements ServiceInterface<Cart> {
 		cart.setUser(newUser);
 		cart.setStatus(CartStatus.ACTIVE);
 		return this.create(cart);
+	}
+	
+	public Cart addToCart(int id,CartItem item) {
+		Cart cart  = this.findById(id);
+		if(cart.getItems()==null)
+			cart.setItems(new ArrayList<>());
+		cart.getItems().add(item);	
+		cart.setCartTotal(calculateTotal(cart));
+		return this.repo.save(cart);
+	}
+	
+	public float calculateTotal(Cart cart){
+		float total=0;
+		List<CartItem> items = cart.getItems();
+		for(CartItem item : items) {
+			total += item.getTotal();
+		}
+		return total;
+	}
+	
+	public Cart removeFromCart(int id,CartItem item){
+		Cart cart  = this.findById(id);
+		cart.getItems().remove(item);
+		cart.setCartTotal(calculateTotal(cart));
+		return this.repo.save(cart);
 	}
 }
