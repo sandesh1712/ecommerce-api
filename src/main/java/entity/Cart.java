@@ -32,7 +32,7 @@ public class Cart extends SuperEntity {
 	private User user;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "cart",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "cart",cascade = CascadeType.ALL,orphanRemoval = true)
 	private List<CartItem> items;
 
 	@Column(name = "status")
